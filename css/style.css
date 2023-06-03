@@ -1,0 +1,170 @@
+header, footer {
+    background-color: blue;
+    color: white;
+    margin: 0;
+}
+
+footer {
+  width: 70%;
+}
+
+
+p, h3 {
+    margin: 0;
+}
+
+.noDecA {
+  text-decoration: none;
+  color: black;
+}
+
+.articleIconButton {
+  width: 10%;
+  height: fit-content;
+}
+
+
+.subText {
+    opacity: 50%;
+}
+
+body {
+    margin: 0;
+}
+
+#mainList {
+    width: 80%;
+}
+
+#logo, #logoSub, footer i {
+    text-align: center;
+    margin: 0;
+}
+
+hr {
+    border: 3px dashed blue;
+}
+
+#logoList {
+    display: flex;
+    width: 100%;
+}
+
+#logoList a, #logoList p {
+    margin: auto;
+}
+
+.comment {
+    background-color: lightgrey;
+}
+
+
+#logoFront {
+    width: 100%;
+}
+
+
+.articleP {
+    white-space: break-spaces;
+}
+
+footer a, header a {
+    text-decoration: none;
+    color: white;
+}
+
+main {
+    display: flex;
+}
+
+article {
+    width: 70%;
+    background-color: lightskyblue;
+}
+
+.asideArticle {
+  background-color: lightskyblue;
+}
+
+aside {
+    width: 30%;
+    background-color: lightblue;
+    position: fixed;
+    overflow: auto;
+    right: 0;
+}
+
+.blueBackground {
+    background-color: blue;
+    color: white;
+}
+
+* {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+::selection {
+background-color: yellow;
+} 
+
+.hidden {
+  display: none;
+}
+
+.hoverButton:hover {
+  background-color: white;
+  color: black;
+}
+
+.userMenuButton {
+  text-decoration: none;
+    color: white;
+}
+
+.userMenuButton:hover {
+  background-color: white;
+  color: black;
+}
+
+
+.showProfile {
+  text-decoration: none;
+    color: white;
+}
+
+.showProfile:hover {
+  background-color: white;
+  color: black;
+}
+
+
+
+
+.listVisible {
+  background-color: blue;
+
+}
+
+.asideLink {
+  color: black;
+  text-decoration: none;
+  text-align: center;
+  width: 100%;
+  display: block;
+}
+
+
+.asideLink:hover {
+  background-color: black;
+  color: white;
+}
+
+
+.otsikkoShort {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+footer p {
+  text-align: center;
+}

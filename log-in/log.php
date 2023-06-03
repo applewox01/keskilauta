@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="fi">
     <?php
-    if (isset($_SESSION["user"])) {
-    session_unset();
-    };
+    header('Content-Type:text/html; charset=UTF-8');
+        $baseTiedosto = fopen("../baselink.txt", "r") or die("Ongelma tietokannassa");
+        $baseLink = fgets($baseTiedosto);
+        fclose($baseTiedosto);
     session_start();
-    $palvelin = "localhost";
-    $kayttaja = "root";  
-    $salasana = "";
-    $tietokanta = "users";
+    if (isset($_SESSION["user"])) {
+      header("Location: ".$baseLink."");
+    } else {
+      header('Content-Type:text/html; charset=UTF-8');
+    };
+    $palvelin = "10.9.0.60";
+    $kayttaja = "s2200813";  
+    $salasana = "nQ8clyM4";
+    $tietokanta = "s2200813_1";
 
     $yhteys = new mysqli($palvelin, $kayttaja, $salasana, $tietokanta);
 
@@ -16,17 +22,21 @@
         die("Yhteyden muodostaminen epäonnistui: " . $yhteys->connect_error);
      }
      // aseta merkistökoodaus (muuten ääkköset sekoavat)
-     $yhteys->set_charset("utf8");
+     $yhteys->set_charset("utf8mb4");
     ?>
 <head>
+<link href="<?php echo $baseLink; ?>/css/style.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uutiset.com - kirjaudu sisään</title>
+    <title>Keskilauta.com - kirjaudu sisään</title>
+    <link rel="icon" href="<?php echo $baseLink; ?>/assets/logo.png">
+    <script src="<?php echo $baseLink; ?>/js/log-in/main.js"></script>
 </head>
-<body>
 
-<h3><b>Uutiset.com - Kirjaudu sisään</b></h3>
+<body>
+<img src="<?php echo $baseLink; ?>/assets/logo.png" alt="fisu" style="height: fit-content; width: 20%;">
+<h3><b>Keskilauta.com - Kirjaudu sisään</b></h3>
 <form method="post" action="">
 <label for="username"><b>Käyttäjätunnus:</b></label>
 <br>
@@ -36,30 +46,7 @@
 <br>
 <input type="password" name="password" id="password">
 <button id="showPass">Näytä salasana</button>
-<script>
-let button = document.getElementById("showPass");
-let password = document.getElementById("password");
-button.addEventListener("click", showOrHide);
 
-let hidPass = true;
-function showOrHide(event) {
-event.preventDefault();
-if (hidPass == true) {
-  hidPass = false;
-  button.innerHTML = "Piilota salasana";
-  password.type = "text";
-} else {
-  hidPass = true;
-  button.innerHTML = "Näytä salasana";
-  password.type = "password";
-};
-}; 
-///////////////////////
-//TO DO LIST:
-//SALASANASSA EI SAA OLLA ERITYISMERKKEJÄ, EIKÄ SAA OLLA TYHJÄ
-//event default prevent
-console.log("Js works!");
-</script>
 <br>
 <input type="submit" name="log" value="Kirjaudu sisään">
 <?php
@@ -79,21 +66,19 @@ if($tulokset->num_rows > 0 ){
  if ($verifyPass && $verifyUser) {
     $_SESSION["user"] = $username;
     $_SESSION["admin"] = $rivi["admin"];
-    header("Location: ../sivusto.php/");
-    exit();
+    $_SESSION["btc"] = $rivi["btc"];
+    header("Location: ".$baseLink."");
+    $yhteys->close();
+    exit;
  };
 };
 echo "<p>Virheellinen salasana tai käyttäjätunnus</p>";
-} else {
-    echo "<p>Ongelma tietokannassa!</p>";  
 };
 };
 ?>
 </form>
-<a href="./register.php/">Ei käyttäjää? Rekisteröidy täällä</a>
+<a href="<?php echo $baseLink; ?>/log-in/register.php">Ei käyttäjää? Rekisteröidy täällä</a>
 <br>
-<a href="../sivusto.php/">Jatka kirjautumatta</a>
-<br>
-<a href="../report.php/">Raportoi ongelma</a>
+<a href="<?php echo $baseLink; ?>">Jatka kirjautumatta</a>
 </body>
 </html>

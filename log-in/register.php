@@ -1,28 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
-    <?php
-    $palvelin = "localhost";
-    $kayttaja = "root";  
-    $salasana = "";
-    $tietokanta = "users";
+<html lang="fi">
+  <!--TEST ED.-->
+      <?php
+      error_reporting(E_ALL);
+      ini_set('display_errors', 1);
+
+      session_start();
+      
+        $baseTiedosto = fopen("../baselink.txt", "r") or die("Ongelma tietokannassa");
+        $baseLink = fgets($baseTiedosto);
+        fclose($baseTiedosto);
+
+        if (isset($_SESSION["user"])) {
+          header("Location: ".$baseLink."");
+        } else {
+          header('Content-Type:text/html; charset=UTF-8');
+        };
+
+        $palvelin = "10.9.0.60";
+        $kayttaja = "s2200813";  
+        $salasana = "nQ8clyM4";
+        $tietokanta = "s2200813_1";
 
     $yhteys = new mysqli($palvelin, $kayttaja, $salasana, $tietokanta);
 
     if ($yhteys->connect_error) {
         die("Yhteyden muodostaminen epäonnistui: " . $yhteys->connect_error);
-     }
+     };
      // aseta merkistökoodaus (muuten ääkköset sekoavat)
      $yhteys->set_charset("utf8");
     ?>
 <head>
+<link href="<?php echo $baseLink; ?>/css/style.css" rel="stylesheet">
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Uutiset.com - rekisteröityminen</title>
+    <title>Keskilauta.com - rekisteröityminen</title>
+    <link rel="icon" href="<?php echo $baseLink; ?>/assets/logo.png">
 </head>
 <body>
-
-<h3><b>Uutiset.com - Rekisteröidy</b></h3>
+<img src="<?php echo $baseLink; ?>/assets/logo.png" alt="fisu" style="height: fit-content; width: 20%;">
+<h3><b>Keskilauta.com - Rekisteröidy</b></h3>
 <form method="post" action="">
 <label for="username"><b>Käyttäjätunnus:</b></label>
 <br>
@@ -97,25 +115,26 @@ if($tulokset->num_rows > 0 ){
 } else {
     //eli ei löytynyt
     if ($valid == true) {
-    $insert = "INSERT INTO registered (username, password, admin) 
-    VALUES ('$encodedUser', '$encodedPass', 0)";
-    if (mysqli_query($yhteys, $insert)) {
+    $insert = "INSERT INTO registered (admin, password, username) 
+    VALUES (0, '$encodedPass', '$encodedUser')";
+    if ($yhteys->query($insert) == true) {
         echo "<p>Käyttäjä luotu</p>";
-        header("Location: ./log.php");
-        exit();
+        echo "".$baseLink."/log-in/log.php";
+        $yhteys->close();
+        header("Location: ".$baseLink."/log-in/log.php");
+        exit;
       } else {
         echo "<b>Virhe tietokannassa!</b>";
       };
-    } else {
-      echo "<p><b>Kelvoton tunnus: </b>??</p>";
     };
 };
 };
 ?>
 </form>
-<a href="./log.php">Kirjaudu sisään täällä</a>
+<a href="<?php echo $baseLink; ?>/log-in/log.php">Kirjaudu sisään täällä</a>
 <br>
-<a href="../report.php">Asiakaspalvelu</a>
-
+<a href="<?php echo $baseLink; ?>/report.php">Raportoi ongelma</a>
+<br>
+<a href="<?php echo $baseLink; ?>">Jatka rekisteröitymättä</a>
 </body>
 </html>
